@@ -14,14 +14,13 @@ export const authMiddleware = (req, res, next) => {
             : headers;
         if (!authHeader) {
             return res.status(411).json({
-                erroe: "Token not get",
+                errors: "Token not get",
             });
         }
         const decode = jwt.verify(authHeader, process.env.JWT_SECRET);
-        console.log(decode);
         if (!decode) {
             return res.status(411).json({
-                error: "Cant verify the token",
+                errors: "Cant verify the token",
             });
         }
         if (decode) {

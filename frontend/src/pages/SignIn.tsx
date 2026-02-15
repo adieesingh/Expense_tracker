@@ -5,12 +5,15 @@ import { Footer } from "../components/Footer";
 import { Heading } from "../components/Heading";
 import { Bottom } from "../components/Botttom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate=useNavigate();
   const [error, setError] = useState<Record<string,string>>({});
   const handleLogin = async () => {
     try {
@@ -21,7 +24,9 @@ export function SignIn() {
       );
       if (res) {
         localStorage.setItem("token", res.data.token);
-        console.log(res);
+        toast.success("Sign In Succesfully ")
+        navigate('/dashboard')
+
       }
     } catch (err) {
       //@ts-ignore

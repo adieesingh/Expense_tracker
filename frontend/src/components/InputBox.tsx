@@ -2,10 +2,13 @@
 
 interface InputProps{
     type:string,
-    placeholder:string,
+    placeholder?:string,
     onChange:React.ChangeEventHandler<HTMLInputElement>,
-    value:string
+    value?:string
     text:string
+    min?:string
+    
+
 
 }
 export const InputBox =(props:InputProps)=>{
@@ -18,6 +21,8 @@ export const InputBox =(props:InputProps)=>{
               placeholder={props.placeholder}
               onChange={props.onChange}
               className="input"
+              min={props.min}
+              
             />
           </div> 
 }

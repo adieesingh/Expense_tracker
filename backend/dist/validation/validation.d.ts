@@ -9,7 +9,10 @@ export declare const signinParse: z.ZodObject<{
     password: z.ZodString;
 }, z.z.core.$strip>;
 export declare const transcationParse: z.ZodObject<{
-    type: z.ZodString;
+    type: z.ZodEnum<{
+        expense: "expense";
+        income: "income";
+    }>;
     amount: z.ZodNumber;
     category: z.ZodString;
     date: z.z.ZodCoercedDate<unknown>;

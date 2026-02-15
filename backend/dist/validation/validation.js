@@ -9,10 +9,10 @@ export const signinParse = z.object({
     password: z.string().min(8, "Min 8 character sshould be there"),
 });
 export const transcationParse = z.object({
-    type: z.string().min(1, "Type required"),
-    amount: z.number(),
-    category: z.string(),
-    date: z.coerce.date(),
-    description: z.string()
+    type: z.enum(["expense", "income"]),
+    amount: z.number().positive("Postive Value required"),
+    category: z.string().min(1, "Categoary required"),
+    date: z.coerce.date("Invalid Date"),
+    description: z.string().min(1, "Description required")
 });
 //# sourceMappingURL=validation.js.map

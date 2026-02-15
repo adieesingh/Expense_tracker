@@ -1,26 +1,26 @@
 import mongoose from "mongoose";
 export declare const Transacation: mongoose.Model<{
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
 }, {}, {}, {
     id: string;
 }, mongoose.Document<unknown, {}, {
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
 }, {
     id: string;
 }, mongoose.DefaultSchemaOptions> & Omit<{
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
@@ -31,25 +31,25 @@ export declare const Transacation: mongoose.Model<{
 }, "id"> & {
     id: string;
 }, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
 }, mongoose.Document<unknown, {}, {
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
 }, {
     id: string;
 }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<{
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
@@ -63,18 +63,18 @@ export declare const Transacation: mongoose.Model<{
     [path: string]: mongoose.SchemaDefinitionProperty<undefined, any, any>;
 } | {
     [x: string]: mongoose.SchemaDefinitionProperty<any, any, mongoose.Document<unknown, {}, {
-        type: "income" | "expense";
+        type: "expense" | "income";
         amount: number;
-        category: "Food" | "Rent" | "Salary";
+        category: string;
         date: NativeDate;
         description: string;
         userId: mongoose.Types.ObjectId;
     }, {
         id: string;
     }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<{
-        type: "income" | "expense";
+        type: "expense" | "income";
         amount: number;
-        category: "Food" | "Rent" | "Salary";
+        category: string;
         date: NativeDate;
         description: string;
         userId: mongoose.Types.ObjectId;
@@ -86,9 +86,9 @@ export declare const Transacation: mongoose.Model<{
         id: string;
     }> | undefined;
 }, {
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
@@ -97,9 +97,9 @@ export declare const Transacation: mongoose.Model<{
 } & {
     __v: number;
 }>, {
-    type: "income" | "expense";
+    type: "expense" | "income";
     amount: number;
-    category: "Food" | "Rent" | "Salary";
+    category: string;
     date: NativeDate;
     description: string;
     userId: mongoose.Types.ObjectId;
