@@ -50,16 +50,16 @@ userTranscation.post("/transcation", authMiddleware, async (req, res) => {
 //getting the transcation user
 userTranscation.get("/user", authMiddleware, async (req, res) => {
     try {
-        const response = await Transacation.find({});
+        //@ts-ignore
+        const response = await Transacation.findById({ _id: req.userId });
         if (!response) {
             return res.status(411).json({
                 errors: `Can't get transcation`,
             });
         }
         if (response) {
-            return res.status(200).json({
-                message: response,
-            });
+            console.log(response);
+            return res.status(200).json(response);
         }
     }
     catch (error) {
@@ -92,12 +92,31 @@ userTranscation.get("/summary", authMiddleware, async (req, res) => {
         });
     }
     const result = {};
-    const monthsName = ["", "Jan", "Feb", "Mar", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthsName = [
+        "",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
     summary.forEach((item) => {
         const month = item._id.month;
         const type = item._id.type;
         if (!result[month]) {
-            result[month] = { monthName: monthsName[month], income: 0, expense: 0, balance: 0 };
+            result[month] = {
+                monthName: monthsName[month],
+                income: 0,
+                expense: 0,
+                balance: 0,
+            };
         }
         if (type == "income") {
             result[month].income = item.total;
@@ -106,12 +125,64 @@ userTranscation.get("/summary", authMiddleware, async (req, res) => {
             result[month].expense = item.total;
         }
     });
-    console.log(result);
     Object.values(result).forEach((item) => {
         item.balance = item.income - item.expense;
     });
+    console.log(result);
     const finalData = Object.values(result);
-    console.log(summary);
     return res.status(200).json(finalData);
+});
+//sort by expense
+userTranscation.get("/expense", authMiddleware, async (req, res) => {
+    try {
+        //@ts-ignore
+        const summary = await Transacation.aggregate([
+            {
+                $match: {
+                    //@ts-ignore
+                    userId: new mongoose.Types.ObjectId(req.userId),
+                    type: "expense",
+                },
+            },
+            {
+                $group: {
+                    _id: "$category",
+                    total: { $sum: "$amount" },
+                },
+            },
+        ]);
+        const finalData = summary.map((item) => ({
+            name: item._id,
+            value: item.total,
+        }));
+        console.log(finalData);
+        return res.status(200).json(finalData);
+    }
+    catch (error) {
+        return res.status(411).json({ error: "Server error" });
+    }
+});
+//delete
+userTranscation.delete("/delete/:id", authMiddleware, async (req, res) => {
+    try {
+        const transcationId = req.params.id;
+        //@ts-ignore
+        const deleted = await Transacation.findOneAndDelete({
+            _id: transcationId,
+            //@ts-ignore
+            userId: req.userId,
+        });
+        if (!deleted) {
+            return res.status(404).json({ error: "Not deleetd " });
+        }
+        return res.status(200).json({
+            message: "Transcation deleted suucesfully",
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            error: `Something went wrong ${error}`,
+        });
+    }
 });
 //# sourceMappingURL=userTranscationModel.js.map
