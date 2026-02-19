@@ -53,7 +53,8 @@ userTranscation.post("/transcation", authMiddleware, async (req, res) => {
 userTranscation.get("/user", authMiddleware, async (req, res) => {
   try {
     //@ts-ignore
-    const response = await Transacation.findById({_id:req.userId});
+    const response = await Transacation.find({userId:new mongoose.Types.ObjectId(req.userId)}).sort({date:-1});
+    console.log(response)
     if (!response) {
       return res.status(411).json({
         errors: `Can't get transcation`,

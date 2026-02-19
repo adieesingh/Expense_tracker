@@ -8,18 +8,20 @@ import { Add } from "./pages/Add";
 import { Chart } from "./pages/Chart";
 import { Home } from "./pages/Home";
 import { TranscationForm } from "./pages/TranscationForm";
+import { LandingPage } from "./pages/LandingPage";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/signin" element={<SignIn></SignIn>}></Route>
+          <Route path="/login" element={<SignIn></SignIn>}></Route>
           <Route path="/signup" element={<Signup></Signup>}></Route>
           <Route path="/dashboard" element={<DashBoard></DashBoard>}></Route>
           <Route path="/add" element={<Add></Add>}></Route>
           <Route path="/chart" element={<Chart></Chart>}></Route>
           <Route path="/home" element={<Home></Home>}></Route>
+          <Route path="/landing" element={<LandingPage></LandingPage>}></Route>
           <Route
             path="/addform"
             element={<TranscationForm></TranscationForm>}
