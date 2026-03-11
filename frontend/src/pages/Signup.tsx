@@ -8,27 +8,29 @@ import { Footer } from "../components/Footer";
 import { toast } from "react-toastify";
 
 export const Signup = () => {
- const[formData,setFormData]=useState({
-  name:"",
-  email:"",
-  password:""
- })
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
-  const [error, setError] = useState<Record<string,string>>({});
+  const [error, setError] = useState<Record<string, string>>({});
   const handleRegsiter = async () => {
     try {
-      
-      const res = await axios.post("http://localhost:3000/api/v1/signup", formData);
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/signup",
+        formData,
+      );
       if (res) {
         navigate("/signin");
         toast.success("Signup Successfully");
       }
     } catch (err) {
       //@ts-ignore
-     if(err.response && err.response.data.errors ){
-      //@ts-ignore
-      setError(err.response.data.errors)
-     }
+      if (err.response && err.response.data.errors) {
+        //@ts-ignore
+        setError(err.response.data.errors);
+      }
     }
   };
   return (
@@ -44,7 +46,7 @@ export const Signup = () => {
             type="text"
             value={formData.name}
             placeholder="John Doe"
-            onChange={(e) => setFormData({...formData,name:e.target.value})}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           ></InputBox>
 
           {error.name && <p className="text-red-500 text-sm">{error.name}</p>}
@@ -53,7 +55,9 @@ export const Signup = () => {
             type="text"
             value={formData.email}
             placeholder="your@email.com"
-            onChange={(e) => setFormData({...formData,email:e.target.value})}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
           ></InputBox>
           {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
           <InputBox
@@ -61,15 +65,19 @@ export const Signup = () => {
             type="password"
             value={formData.password}
             placeholder="********"
-            onChange={(e) => setFormData({...formData,password:e.target.value})}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
           ></InputBox>
-          {error.password && <p className="text-red-500 text-sm">{error.password}</p>}
+          {error.password && (
+            <p className="text-red-500 text-sm">{error.password}</p>
+          )}
           <Button text="Sign Up" onClick={handleRegsiter}></Button>
         </div>
         <Footer
           message="Already have a account"
           text="Sign In"
-          link="/signin"
+          link="/login"
         ></Footer>
       </div>
     </div>

@@ -13,8 +13,8 @@ export function SignIn() {
     email: "",
     password: "",
   });
-  const navigate=useNavigate();
-  const [error, setError] = useState<Record<string,string>>({});
+  const navigate = useNavigate();
+  const [error, setError] = useState<Record<string, string>>({});
   const handleLogin = async () => {
     try {
       setError({});
@@ -24,9 +24,8 @@ export function SignIn() {
       );
       if (res) {
         localStorage.setItem("token", res.data.token);
-        toast.success("Sign In Succesfully ")
-        navigate('/dashboard')
-
+        toast.success("Sign In Succesfully ");
+        navigate("/home");
       }
     } catch (err) {
       //@ts-ignore

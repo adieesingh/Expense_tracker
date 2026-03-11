@@ -7,8 +7,8 @@ import { DashBoard } from "./pages/DashBoard";
 import { Add } from "./pages/Add";
 import { Chart } from "./pages/Chart";
 import { Home } from "./pages/Home";
-import { TranscationForm } from "./pages/TranscationForm";
 import { LandingPage } from "./pages/LandingPage";
+import { NavBarCom } from "./components/NavBarCom";
 
 function App() {
   return (
@@ -18,14 +18,8 @@ function App() {
           <Route path="/login" element={<SignIn></SignIn>}></Route>
           <Route path="/signup" element={<Signup></Signup>}></Route>
           <Route path="/dashboard" element={<DashBoard></DashBoard>}></Route>
-          <Route path="/add" element={<Add></Add>}></Route>
-          <Route path="/chart" element={<Chart></Chart>}></Route>
           <Route path="/home" element={<Home></Home>}></Route>
-          <Route path="/landing" element={<LandingPage></LandingPage>}></Route>
-          <Route
-            path="/addform"
-            element={<TranscationForm></TranscationForm>}
-          ></Route>
+          <Route path="/" element={<LandingPage></LandingPage>}></Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { NavBar } from "../components/NavBar";
 import axios from "axios";
 import { IncomeExpenseChart } from "../components/IncomeExpenseChart";
 import { PieChartCategories } from "../components/PieChartCategories";
 import { TransactionTable } from "../components/TranscationTable";
+import { NavBarCom } from "../components/NavBarCom";
 
 interface dataProps {
   balance: number;
@@ -54,7 +54,7 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavBar />
+      <NavBarCom></NavBarCom>
 
       
       <main className="px-4 sm:px-6 lg:px-8 py-6 mt-16 max-w-7xl mx-auto">
