@@ -4,11 +4,10 @@ import { SignIn } from "./pages/SignIn";
 import { Bounce, ToastContainer } from "react-toastify";
 import { Signup } from "./pages/Signup";
 import { DashBoard } from "./pages/DashBoard";
-import { Add } from "./pages/Add";
-import { Chart } from "./pages/Chart";
+
 import { Home } from "./pages/Home";
 import { LandingPage } from "./pages/LandingPage";
-import { NavBarCom } from "./components/NavBarCom";
+
 
 function App() {
   return (

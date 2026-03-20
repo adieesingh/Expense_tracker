@@ -48,17 +48,17 @@ export const LandingPage = () => {
         .float-card:nth-child(3) { animation-delay: 1.4s; }
       `}</style>
 
-      {/* BG blobs */}
+      
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute -top-32 -left-32 w-125 h-125 bg-green-200 rounded-full blur-[120px] opacity-50" />
         <div className="absolute top-1/2 -right-40 w-100 h-100 bg-blue-200 rounded-full blur-[120px] opacity-40" />
         <div className="absolute bottom-0 left-1/3 w-75 h-75 bg-emerald-100 rounded-full blur-[100px] opacity-60" />
       </div>
 
-      {/* ── Nav ── */}
+     
       <nav className="relative z-10 flex items-center justify-between px-6 sm:px-12 py-4 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div className="flex items-center gap-2.5">
-          {/* Logo mark: upward trending chart in a rounded square */}
+         
           <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center shadow-md shadow-green-200 shrink-0">
             <svg
               width="18"
@@ -67,7 +67,7 @@ export const LandingPage = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Bar chart bars */}
+             
               <rect
                 x="1"
                 y="10"
@@ -87,7 +87,7 @@ export const LandingPage = () => {
                 fillOpacity="0.8"
               />
               <rect x="11" y="2" width="3" height="14" rx="1" fill="white" />
-              {/* Upward trend arrow */}
+              
               <polyline
                 points="1.5,12 6,7 10,9 16,3"
                 stroke="white"

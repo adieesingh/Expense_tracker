@@ -5,24 +5,32 @@ import axios from "axios";
 type TransactionType = "income" | "expense";
 
 const CATEGORIES = {
-  expense: ["Food", "Transport", "Shopping", "Bills", "Health", "Entertainment", "Other"],
-  income:  ["Salary", "Freelance", "Investment", "Gift", "Other"],
+  expense: [
+    "Food",
+    "Transport",
+    "Shopping",
+    "Bills",
+    "Health",
+    "Entertainment",
+    "Other",
+  ],
+  income: ["Salary", "Freelance", "Investment", "Gift", "Other"],
 };
 
 export const NavBarCom = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [menuOpen,   setMenuOpen]   = useState(false);
-  const [modalOpen,  setModalOpen]  = useState(false);
-  const [txType,     setTxType]     = useState<TransactionType>("expense");
-  const [amount,     setAmount]     = useState("");
-  const [category,   setCategory]   = useState(CATEGORIES.expense[0]);
-  const [date,       setDate]       = useState(new Date().toISOString().split("T")[0]);
-  const [note,       setNote]       = useState("");
-  const [loading,    setLoading]    = useState(false);
-  const [success,    setSuccess]    = useState(false);
-  const [error,      setError]      = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [txType, setTxType] = useState<TransactionType>("expense");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState(CATEGORIES.expense[0]);
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -40,13 +48,18 @@ export const NavBarCom = () => {
   // Lock body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = modalOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [modalOpen]);
 
   const openModal = (type: TransactionType) => {
     setTxType(type);
     setCategory(CATEGORIES[type][0]);
-    setAmount(""); setNote(""); setError(""); setSuccess(false);
+    setAmount("");
+    setDescription("");
+    setError("");
+    setSuccess(false);
     setDate(new Date().toISOString().split("T")[0]);
     setModalOpen(true);
     setMenuOpen(false);
@@ -72,12 +85,13 @@ export const NavBarCom = () => {
     setError("");
     try {
       await axios.post(
-        "http://localhost:3000/api/v1/add",
-        { type: txType, amount: Number(amount), category, date, note },
-        { headers: { Authorization: localStorage.getItem("token") } }
+        "http://localhost:3000/api/v1/transcation",
+        { type: txType, amount: Number(amount), category, date, description },
+        { headers: { Authorization: localStorage.getItem("token") } },
       );
       setSuccess(true);
-      setAmount(""); setNote("");
+      setAmount("");
+      setDescription("");
       setTimeout(closeModal, 1400);
     } catch {
       setError("Something went wrong. Please try again.");
@@ -93,23 +107,19 @@ export const NavBarCom = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const navLinks = [
-    { label: "Dashboard",    path: "/home",    icon: "📊" },
-   
-  ];
+  const navLinks = [{ label: "Dashboard", path: "/home", icon: "📊" }];
 
   return (
     <>
-     
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-
-         
-          <button onClick={() => navigate("/home")} className="flex items-center gap-2 font-bold text-lg tracking-tight text-gray-900">
+          <button
+            onClick={() => navigate("/home")}
+            className="flex items-center gap-2 font-bold text-lg tracking-tight text-gray-900"
+          >
             Fin<span className="text-green-500">Track</span>
           </button>
 
-          
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map(({ label, path, icon }) => (
               <button
@@ -145,8 +155,18 @@ export const NavBarCom = () => {
               onClick={handleLogout}
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-gray-500 hover:text-red-500 hover:bg-red-50 transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
               </svg>
               Logout
             </button>
@@ -159,12 +179,32 @@ export const NavBarCom = () => {
             aria-label="Toggle menu"
           >
             {menuOpen ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             )}
           </button>
@@ -176,7 +216,10 @@ export const NavBarCom = () => {
             {navLinks.map(({ label, path, icon }) => (
               <button
                 key={path}
-                onClick={() => { navigate(path); setMenuOpen(false); }}
+                onClick={() => {
+                  navigate(path);
+                  setMenuOpen(false);
+                }}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-left transition-colors ${
                   isActive(path)
                     ? "bg-gray-100 text-gray-900"
@@ -204,8 +247,18 @@ export const NavBarCom = () => {
               onClick={handleLogout}
               className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:text-red-500 hover:bg-red-50 transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
               </svg>
               Logout
             </button>
@@ -216,16 +269,33 @@ export const NavBarCom = () => {
       {/* ── Add Transaction Modal ── */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-          <div ref={modalRef} className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-
+          <div
+            ref={modalRef}
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+          >
             {/* Modal header */}
-            <div className={`px-6 py-5 flex items-center justify-between ${txType === "income" ? "bg-green-50" : "bg-red-50"}`}>
+            <div
+              className={`px-6 py-5 flex items-center justify-between ${txType === "income" ? "bg-green-50" : "bg-red-50"}`}
+            >
               <h2 className="text-lg font-bold text-gray-900">
                 {txType === "income" ? "➕ Add Income" : "➖ Add Expense"}
               </h2>
-              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <button
+                onClick={closeModal}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -258,14 +328,15 @@ export const NavBarCom = () => {
 
             {/* Form */}
             <div className="px-6 pb-6 pt-4 flex flex-col gap-4">
-
               {/* Amount */}
               <div>
                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
                   Amount (₹)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">₹</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">
+                    ₹
+                  </span>
                   <input
                     type="number"
                     min="0"
@@ -288,7 +359,9 @@ export const NavBarCom = () => {
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition bg-white"
                 >
                   {CATEGORIES[txType].map((c) => (
-                    <option key={c} value={c}>{c}</option>
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -309,20 +382,23 @@ export const NavBarCom = () => {
               {/* Note */}
               <div>
                 <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
-                  Note <span className="text-gray-300 font-normal">(optional)</span>
+                  Note{" "}
+                  <span className="text-gray-300 font-normal">(optional)</span>
                 </label>
                 <input
                   type="text"
                   placeholder="e.g. Lunch at restaurant"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
                 />
               </div>
 
               {/* Error */}
               {error && (
-                <p className="text-red-500 text-sm bg-red-50 px-4 py-2.5 rounded-xl">{error}</p>
+                <p className="text-red-500 text-sm bg-red-50 px-4 py-2.5 rounded-xl">
+                  {error}
+                </p>
               )}
 
               {/* Success */}
@@ -342,7 +418,11 @@ export const NavBarCom = () => {
                     : "bg-red-500 hover:bg-red-600 text-white shadow-[0_4px_15px_rgba(239,68,68,0.35)]"
                 } disabled:opacity-60 disabled:cursor-not-allowed`}
               >
-                {loading ? "Saving…" : success ? "Saved! ✓" : `Add ${txType === "income" ? "Income" : "Expense"}`}
+                {loading
+                  ? "Saving…"
+                  : success
+                    ? "Saved! ✓"
+                    : `Add ${txType === "income" ? "Income" : "Expense"}`}
               </button>
             </div>
           </div>
